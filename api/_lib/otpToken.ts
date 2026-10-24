@@ -23,18 +23,15 @@ const IS_PROD = process.env.VERCEL_ENV
   : process.env.NODE_ENV === 'production';
 const MOCK_FLAG = (process.env.OTP_DEV_MOCK ?? '').toLowerCase().trim();
 /**
- * Mock-OTP rules for this serverless demo API (working prototype):
- *  - ON by default in EVERY environment, including production deployments, so
- *    the code is returned in the response and displayed on screen in a
- *    clearly-labelled "Demo mode" banner — no SMS provider or env setup needed
- *    for judges to complete sign-in.
- *  - Set OTP_DEV_MOCK=false (or 0/no/off) to force it off; when off, requested
- *    codes are only logged server-side and are never returned to the client.
- *  - IS_PROD is kept for the token-secret fallback below. Real launches should
- *    ship the Express server (server/) with real SMS, or set OTP_DEV_MOCK=false
- *    here once delivery is wired up.
+ * Dev-mock rules for this serverless demo API:
+ *  - On NON-production deployments the mock is ON by default (code returned in
+ *    the response and shown in the UI, clearly labelled "Demo mode").
+ *  - On a production deployment it is OFF by default and stays OFF unless you
+ *    explicitly set OTP_DEV_MOCK=true — doing so makes every requested OTP
+ *    visible to whoever requests it, which is only acceptable for demos.
+ *  - Setting OTP_DEV_MOCK=false forces it off everywhere.
  */
-const DEV_MOCK = !['0', 'false', 'no', 'off'].includes(MOCK_FLAG);
+const DEV_MOCK = ['1', 'true', 'yes', 'on'].includes(MOCK_FLAG) || (MOCK_FLAG === '' && !IS_PROD);
 const TTL_SECONDS = Number(process.env.OTP_TTL_SECONDS ?? 300);
 const RESEND_SECONDS = Number(process.env.OTP_RESEND_SECONDS ?? 60);
 
