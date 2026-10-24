@@ -6,8 +6,8 @@
  * the clearly-labelled simulated-delivery path, same policy as server/.
  */
 
-import { fail, json, requirePostJson, type ReqLike, type ResLike } from '../_lib/http';
-import { createRequestId, devMockEnabled, generateCode, normalizePhone, OtpFailure, resendSeconds } from '../_lib/otpToken';
+import { fail, json, requirePostJson, type ReqLike, type ResLike } from '../_lib/http.js';
+import { createRequestId, devMockEnabled, generateCode, normalizePhone, OtpFailure, resendSeconds } from '../_lib/otpToken.js';
 
 export default function handler(req: ReqLike, res: ResLike): void {
   try {

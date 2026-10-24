@@ -3,8 +3,8 @@
  * and any judge can confirm which backend answers on the deployed site.
  */
 
-import { json, type ReqLike, type ResLike } from './_lib/http';
-import { devMockEnabled } from './_lib/otpToken';
+import { json, type ReqLike, type ResLike } from './_lib/http.js';
+import { devMockEnabled } from './_lib/otpToken.js';
 
 export default function handler(_req: ReqLike, res: ResLike): void {
   json(res, 200, {

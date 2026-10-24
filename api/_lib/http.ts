@@ -4,7 +4,7 @@
  * reference server uses, so the client's OtpError mapping keeps working.
  */
 
-import { OtpFailure } from './otpToken';
+import { OtpFailure } from './otpToken.js';
 
 /** Minimal shapes of the Vercel (Node.js-style) req/res we actually use. */
 export interface ReqLike {
