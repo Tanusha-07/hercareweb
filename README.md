@@ -133,6 +133,9 @@ src/
 server/
   src/            config, sms providers, otpStore, assistant, express app (index)
   supabase/       schema.sql (RLS-ready production seam)
+api/              Vercel serverless endpoints (/api/health, /api/otp/{request,verify}),
+                  stateless signed-token OTP so it works across invocations
+                  (shared helpers in api/_lib). vercel.json wires the Vite build + SPA rewrites.
 tests/            otp-flow, security, storage-scope, triage, api.e2e
 ```
 
@@ -148,6 +151,34 @@ npm run test:api  # boots the Express app and exercises /api over HTTP
 Tests use the built-in `node --test` runner via `tsx` (which also resolves the `@/*` alias so client
 modules are testable under Node). Each test file runs in its own process so per-process env
 snapshots (e.g. `NODE_ENV=production`) are isolated.
+
+---
+
+## Deploying to Vercel (via GitHub)
+
+This repo is Vercel-ready: `vercel.json` sets the Vite build (`dist/`) with SPA rewrites, and the
+`api/` folder deploys the OTP endpoints as **serverless functions**, so the hosted site can
+register without a long-running Express server.
+
+Vercel functions share no memory between invocations, so the serverless `requestId` is a
+self-contained **signed token** (salted SHA-256 code hash + expiry + phone binding, HMAC-signed)
+instead of the in-memory store used by the Express reference server. The plaintext code is never
+embedded in the token.
+
+1. Import this GitHub repo in Vercel — the framework preset is **Vite**; build settings come from
+   `vercel.json`. No changes needed in "Build & Development Settings".
+2. Add env vars under **Settings → Environment Variables**:
+   - `OTP_TOKEN_SECRET` — a long random string (signs OTP/session tokens). If unset, a
+     publicly-known dev fallback is used — fine for hack demos, never for a real launch.
+   - `OTP_DEV_MOCK` — on Vercel, preview/deployment URLs are *not* treated as production, so the
+     mock (code shown on the verify screen) is **on by default there**. On the **production
+     domain** it is off by default; set `OTP_DEV_MOCK=true` there only if you want a public demo
+     that reveals codes — acceptable for a hackathon, not for real users.
+3. Deploy. Verify with `https://<your-domain>/api/health` — it should answer with JSON.
+
+> The serverless API intentionally omits per-phone attempt/hour rate limits (they need shared
+> storage like Redis/Supabase). For real users, apply `server/supabase/schema.sql` and move OTP
+> storage there, or run the Express server on a platform that allows long-running processes.
 
 ---
 
