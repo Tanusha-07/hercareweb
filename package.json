@@ -1,0 +1,48 @@
+{
+  "name": "hercare-plus",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "HerCare+ — a multilingual women's healthcare and safety platform for rural and underserved communities in India.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\" \"tests/**/*.ts\"",
+    "test": "node --import tsx --test tests/otp-flow.test.ts tests/security.test.ts tests/storage-scope.test.ts tests/triage.test.ts",
+    "test:api": "node --import tsx --test tests/api.e2e.test.ts",
+    "dev:server": "tsx watch server/src/index.ts",
+    "start:server": "tsx server/src/index.ts"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "lucide-react": "^0.451.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-router-dom": "^6.26.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.19.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.7"
+  }
+}

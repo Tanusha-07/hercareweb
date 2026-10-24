@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    /* Respect user zoom/text scaling; base size is bumped via UiContext. */
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream-100 text-ink font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  /* Visible, high-contrast focus for keyboard users (WCAG 2.2 AA). */
+  :focus-visible {
+    outline: 3px solid #be185d;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-bold text-ink;
+    text-wrap: balance;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-tap items-center justify-center gap-2 rounded-pill px-5 py-3 text-lg font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-berry-600 text-white hover:bg-berry-700 active:bg-berry-800;
+  }
+  .btn-secondary {
+    @apply btn bg-lavender-100 text-lavender-700 hover:bg-lavender-200;
+  }
+  .btn-ghost {
+    @apply btn bg-white text-ink-soft ring-1 ring-inset ring-berry-100 hover:bg-berry-50;
+  }
+  .btn-danger {
+    @apply btn bg-alert-red text-white hover:brightness-95;
+  }
+  .card {
+    @apply rounded-card bg-white p-5 shadow-card;
+  }
+  .field-label {
+    @apply mb-1 block text-lg font-semibold text-ink;
+  }
+  .input {
+    @apply min-h-tap w-full rounded-xl border-2 border-berry-100 bg-white px-4 py-3 text-lg text-ink placeholder:text-ink-muted focus:border-berry-400 focus:outline-none;
+  }
+  .input-error {
+    @apply border-alert-red;
+  }
+  .link {
+    @apply font-semibold text-berry-700 underline underline-offset-2 hover:text-berry-800;
+  }
+}
